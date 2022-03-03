@@ -4,7 +4,7 @@ import { DogoModel } from "../../models/DogoModel";
 
 export const createDogos: Handler = async (context, event) => {
   try {
-    if (context.headers["content-type"] !== "application/json") {
+    if (context.headers["Content-Type"] !== "application/json") {
       return {
         statusCode: 400,
         body: JSON.stringify({
