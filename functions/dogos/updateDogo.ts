@@ -29,8 +29,8 @@ export const updateDogo: Handler = async (context, event) => {
         await dogo
           .set({
             name: newName,
-            lastName: newImage,
-            address: newAge,
+            imageURL: newImage,
+            age: newAge,
           })
           .save();
         return {
