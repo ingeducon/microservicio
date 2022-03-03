@@ -17,7 +17,7 @@ export const deletedogo: Handler = async (context, event) => {
     const parsedBody = body && body.length > 0 ? JSON.parse(body) : null;
 
     if (parsedBody && "idDogo" in parsedBody) {
-      const idDogo = parsedBody._id;
+      const idDogo = parsedBody.idDogo;
       await connectDatabase();
       try {
         const dogo = await DogoModel.findById(idDogo);

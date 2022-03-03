@@ -18,7 +18,7 @@ export const updateDogo: Handler = async (context, event) => {
 
     if (parsedBody && "idDogo" in parsedBody) {
       await connectDatabase();
-      const idDogo = parsedBody._id;
+      const idDogo = parsedBody.idDogo;
       const dogo = await DogoModel.findById(idDogo);
       if (dogo) {
         const newName = parsedBody.name ? parsedBody.name : dogo.name;
