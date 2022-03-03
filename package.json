@@ -1,0 +1,18 @@
+{
+  "name": "TS-microservices-mongo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ada-school/TS-microservices-mongo",
+  "author": "Gabriel Bernal <gabrielbernalp@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@netlify/functions": "^0.7.2",
+    "mongoose": "^6.0.5",
+    "node-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^6.8.8",
+    "typescript": "^4.4.2"
+  }
+}
