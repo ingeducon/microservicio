@@ -2,7 +2,7 @@ import { Handler } from "@netlify/functions";
 import { connectDatabase } from "../../db";
 import { DogoModel } from "../../models/DogoModel";
 
-export const updateDogo: Handler = async (context, event) => {
+export const deletedogo: Handler = async (context, event) => {
   try {
     if (context.headers["content-type"] !== "application/json") {
       return {
@@ -17,39 +17,37 @@ export const updateDogo: Handler = async (context, event) => {
     const parsedBody = body && body.length > 0 ? JSON.parse(body) : null;
 
     if (parsedBody && "idDogo" in parsedBody) {
-      await connectDatabase();
       const idDogo = parsedBody._id;
-      const dogo = await DogoModel.findById(idDogo);
-      if (dogo) {
-        const newName = parsedBody.name ? parsedBody.name : dogo.name;
-        const newImage = parsedBody.imageURL
-          ? parsedBody.imageURL
-          : dogo.imageURL;
-        const newAge = parsedBody.age ? parsedBody.age : dogo.age;
-        await dogo
-          .set({
-            name: newName,
-            lastName: newImage,
-            address: newAge,
-          })
-          .save();
+      await connectDatabase();
+      try {
+        const dogo = await DogoModel.findById(idDogo);
+        if (dogo) {
+          await dogo.remove();
+          return {
+            statusCode: 200,
+            body: JSON.stringify({
+              message: "Registro eliminado exitosamente",
+            }),
+          };
+        } else {
+          return {
+            statusCode: 404,
+            body: JSON.stringify({
+              message: "No se encuentra el registro a eliminar",
+            }),
+          };
+        }
+      } catch (error) {
         return {
-          statusCode: 200,
+          statusCode: 500,
           body: JSON.stringify({
-            dogo: dogo,
-          }),
-        };
-      } else {
-        return {
-          statusCode: 404,
-          body: JSON.stringify({
-            message: "No se encuentra el registro a actualizar",
+            message: "Falla interna del servidor",
           }),
         };
       }
     } else {
       return {
-        statusCode: 400,
+        statusCode: 500,
         body: JSON.stringify({
           error: "Invalid input, idDogo is required",
         }),
