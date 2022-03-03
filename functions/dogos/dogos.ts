@@ -1,6 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { readDogos } from "./readDogos";
 import { createDogos } from "./createDogos";
+import { updateDogo } from "./updateDogo";
 
 const handler: Handler = (event, context, callback) => {
   switch (event.httpMethod) {
@@ -9,6 +10,9 @@ const handler: Handler = (event, context, callback) => {
       break;
     case "POST":
       return createDogos(event, context, callback);
+      break;
+    case "PUT":
+      return updateDogo(event, context, callback);
       break;
   }
 
