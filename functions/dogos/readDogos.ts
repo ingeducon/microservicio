@@ -1,20 +1,34 @@
 import { Handler } from "@netlify/functions";
-import fetch from "node-fetch";
+import { connectDatabase } from "../../db";
+import { DogoModel } from "../../models/DogoModel";
 
 export const readDogos: Handler = async (context, event) => {
-  const response = await fetch("https://random.dog/doggos");
-  const data = await response.json();
+  try {
+    if (context.headers["content-type"] !== "application/json") {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: "Invalid content type, expected application/json",
+        }),
+      };
+    }
 
-  if (Array.isArray(data)) {
+    await connectDatabase();
+
+    const newMedico = await DogoModel.find({});
+
     return {
       statusCode: 200,
       body: JSON.stringify({
-        dogs: {
-          images: data.slice(0, 10).map((url) => `https://random.dog/${url}`),
-        },
+        medicos: newMedico,
       }),
     };
-  } else {
-    return { statusCode: 404 };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        error,
+      }),
+    };
   }
 };

@@ -8,7 +8,7 @@ export const createDogos: Handler = async (context, event) => {
       return {
         statusCode: 400,
         body: JSON.stringify({
-          message: context.headers,
+          message: "Invalid content type, expected application/json",
         }),
       };
     }
