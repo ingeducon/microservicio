@@ -2,7 +2,7 @@ import { Handler } from "@netlify/functions";
 import { connectDatabase } from "../../db";
 import { DogoModel } from "../../models/DogoModel";
 
-export const deletedogo: Handler = async (context, event) => {
+export const deleteDogo: Handler = async (context, event) => {
   try {
     if (context.headers["content-type"] !== "application/json") {
       return {
